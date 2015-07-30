@@ -1,7 +1,7 @@
 COLORS = [
   'yellow'
   'blue'
-  'white'
+  'pink'
   'purple'
   'green'
   'red'
