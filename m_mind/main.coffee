@@ -14,7 +14,7 @@ score_guess = (guess, target) ->
 	target_map = {}
 	# creates target_map
 	for i in target
-		target_map[i] = 1 if not i in target_map else target_map[i] + 1
+		target_map[i] = if i in target_map then target_map[i] + 1 else 1
 
 	for color, index in guess
 		if target[index] == color
