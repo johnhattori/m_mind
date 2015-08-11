@@ -10,7 +10,7 @@ COLORS = [
 # if guess right color, right place, then score = 2
 # if guess right color, wrong place, then score = 1
 score_guess = (guess, target) ->
-	score = (0 for [0..guess.length])
+	score = (0 for [0...guess.length])
 	target_map = {}
 	# creates target_map
 	for color in target
@@ -28,6 +28,16 @@ score_guess = (guess, target) ->
 
 	score.sort().reverse()		
 	return score	
+
+test_score_guess = ->
+	console.assert( _.isEqual(score_guess(['ye', 'bl', 'pe', 'pu'], ['ye', 'bl', 'pe', 'pu']), [2, 2, 2, 2]) )
+	console.assert( _.isEqual(score_guess(['ye', 'bl', 'pe', 'pu'], ['ye', 'bl', 'gr', 're']), [2, 2, 0, 0]) )
+	console.assert( _.isEqual(score_guess(['ye', 'bl', 'pe', 'pu'], ['bl', 'ye', 'pu', 'pe']), [1, 1, 1, 1]) )
+	console.assert( _.isEqual(score_guess(['ye', 'bl', 'pe', 'pu'], ['re', 'gr', 're', 'gr']), [0, 0, 0, 0]) )
+	console.assert( _.isEqual(score_guess(['ye', 'bl', 'pe', 'pu'], ['re', 'gr', 'pu', 'pe']), [1, 1, 0, 0]) )
+	console.assert( _.isEqual(score_guess(['ye', 'bl', 'pe', 'pu'], ['ye', 'pe', 'pu', 're']), [2, 1, 1, 0]) )
+test_score_guess()
+
 
 $ ->
   for color in COLORS
