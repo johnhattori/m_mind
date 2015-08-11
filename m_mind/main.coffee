@@ -33,3 +33,10 @@ $ ->
   for color in COLORS
     $('<div/>', {style: "background-color:#{color}"})
       .appendTo('.colors')
+
+  $('.colors > div').draggable({helper: 'clone'})
+  $('.guess > td').droppable(
+    drop: (event, ui) ->
+      drop_color =  $(ui.draggable).css('background-color')
+      $(this).css('background-color', drop_color)
+  )
