@@ -1,11 +1,4 @@
-COLORS = [
-  'yellow'
-  'blue'
-  'pink'
-  'purple'
-  'green'
-  'red'
-]
+COLORS =  ["#7fc97f","#beaed4","#fdc086","#ffff99","#386cb0","#f0027f"]
 
 SCORE_MAP =
   2: 'black'
