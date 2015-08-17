@@ -7,12 +7,17 @@ COLORS = [
   'red'
 ]
 
+SCORE_MAP =
+  2: 'black'
+  1: 'gray'
+  0: 'white'
+
 # Create random target combination
 generate_target = (colors, guess_size) ->
 	target = []
 	for i in [0...guess_size]
 	 	target.push(_.sample(colors))
-	return target
+  return target
 
 # if guess right color, right place, then score = 2
 # if guess right color, wrong place, then score = 1
@@ -46,20 +51,32 @@ test_score_guess = ->
 test_score_guess()
 
 
-GUESS_LEN = 4
+GUESS_SIZE = 4
 
 update_activeguess = (guess_num) ->
+  $('.guess .activeguess').droppable('destroy')
   $('.activeguess').removeClass('activeguess')
 
   rows = $('.board > tbody > tr')
-  for i in [0...GUESS_LEN]
+  for i in [0...GUESS_SIZE]
     $(rows[guess_num].children[i]).addClass('activeguess')
+
+  make_activeguess_droppable()
+
+make_activeguess_droppable = ->
+
+  $('.guess .activeguess').droppable(
+    drop: (event, ui) ->
+      drop_color =  $(ui.draggable).css('background-color')
+      $(this).css('background-color', drop_color)
+      $(this).attr('data', $(ui.draggable).attr('data'))
+  )
 
 
 get_guess = (guess_num) ->
   guess = []
   rows = $('.board > tbody > tr')
-  for i in [0...GUESS_LEN]
+  for i in [0...GUESS_SIZE]
     guess.push($(rows[guess_num].children[i]).attr('data'))
 
   return guess
@@ -69,9 +86,20 @@ is_valid_guess = (guess) ->
   return not _.contains(guess, undefined)
 
 
-$ ->
-  guess_num = 0
+display_score = (score, guess_num) ->
+  for i in [0...GUESS_SIZE]
+    $('.score')
+      .eq(guess_num)
+      .find('td')
+      .eq(i)
+      .css('background-color', SCORE_MAP[score[i]])
 
+
+$ ->
+
+  target = generate_target(COLORS, GUESS_SIZE)
+  console.log(target)
+  guess_num = 0
   update_activeguess(guess_num)
 
   for color in COLORS
@@ -80,12 +108,12 @@ $ ->
       .appendTo('.colors')
 
   $('.colors > div').draggable({helper: 'clone'})
-  $('.guess .activeguess').droppable(
-    drop: (event, ui) ->
-      drop_color =  $(ui.draggable).css('background-color')
-      $(this).css('background-color', drop_color)
-      $(this).attr('data', $(ui.draggable).attr('data'))
-  )
 
-  $('.submit').on 'click', ->
-    get_guess(guess_num)
+  $('.submit').on 'click', =>
+    guess = get_guess(guess_num)
+    if is_valid_guess(guess)
+      score = score_guess(guess, target)
+      console.log(target, guess, score)
+      display_score(score, guess_num)
+      guess_num += 1
+      update_activeguess(guess_num)
