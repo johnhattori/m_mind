@@ -33,8 +33,8 @@ score_guess = (guess, target) ->
 			target_map[color] -= 1
 			score[index] = 1
 
-	score.sort().reverse()		
-	return score	
+	score.sort().reverse()
+	return score
 
 test_score_guess = ->
 	console.assert( _.isEqual(score_guess(['ye', 'bl', 'pe', 'pu'], ['ye', 'bl', 'pe', 'pu']), [2, 2, 2, 2]) )
@@ -46,15 +46,28 @@ test_score_guess = ->
 test_score_guess()
 
 
+GUESS_LEN = 4
+
+update_activeguess = (guess_num) ->
+  # remove the class for all the TD
+  $('td').removeClass('activeguess')
+
+  rows = $('.board > tbody > tr')
+  for i in [0...GUESS_LEN]
+    $(rows[guess_num].children[i]).addClass('activeguess')
+
 $ ->
+  guess_num = 0
+
+  update_activeguess(guess_num)
+
   for color in COLORS
     $('<div/>', {style: "background-color:#{color}"})
       .appendTo('.colors')
 
   $('.colors > div').draggable({helper: 'clone'})
-  $('.guess > td').droppable(
+  $('.guess .activeguess').droppable(
     drop: (event, ui) ->
       drop_color =  $(ui.draggable).css('background-color')
       $(this).css('background-color', drop_color)
   )
-
