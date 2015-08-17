@@ -12,7 +12,7 @@ generate_target = (colors, guess_size) ->
 	target = []
 	for i in [0...guess_size]
 	 	target.push(_.sample(colors))
-	return target 	
+	return target
 
 # if guess right color, right place, then score = 2
 # if guess right color, wrong place, then score = 1
@@ -49,8 +49,7 @@ test_score_guess()
 GUESS_LEN = 4
 
 update_activeguess = (guess_num) ->
-  # remove the class for all the TD
-  $('td').removeClass('activeguess')
+  $('.activeguess').removeClass('activeguess')
 
   rows = $('.board > tbody > tr')
   for i in [0...GUESS_LEN]
