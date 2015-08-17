@@ -7,6 +7,13 @@ COLORS = [
   'red'
 ]
 
+# Create random target combination
+generate_target = (colors, guess_size) ->
+	target = []
+	for i in [0...guess_size]
+	 	target.push(_.sample(colors))
+	return target 	
+
 # if guess right color, right place, then score = 2
 # if guess right color, wrong place, then score = 1
 score_guess = (guess, target) ->
