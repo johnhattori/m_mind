@@ -98,7 +98,6 @@ display_score = (score, guess_num) ->
 $ ->
 
   target = generate_target(COLORS, GUESS_SIZE)
-  console.log(target)
   guess_num = 0
   update_activeguess(guess_num)
 
