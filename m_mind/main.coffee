@@ -55,6 +55,20 @@ update_activeguess = (guess_num) ->
   for i in [0...GUESS_LEN]
     $(rows[guess_num].children[i]).addClass('activeguess')
 
+
+get_guess = (guess_num) ->
+  guess = []
+  rows = $('.board > tbody > tr')
+  for i in [0...GUESS_LEN]
+    guess.push($(rows[guess_num].children[i]).attr('data'))
+
+  return guess
+
+
+is_valid_guess = (guess) ->
+  return not _.contains(guess, undefined)
+
+
 $ ->
   guess_num = 0
 
@@ -62,6 +76,7 @@ $ ->
 
   for color in COLORS
     $('<div/>', {style: "background-color:#{color}"})
+      .attr('data', color)
       .appendTo('.colors')
 
   $('.colors > div').draggable({helper: 'clone'})
@@ -69,4 +84,8 @@ $ ->
     drop: (event, ui) ->
       drop_color =  $(ui.draggable).css('background-color')
       $(this).css('background-color', drop_color)
+      $(this).attr('data', $(ui.draggable).attr('data'))
   )
+
+  $('.submit').on 'click', ->
+    get_guess(guess_num)
